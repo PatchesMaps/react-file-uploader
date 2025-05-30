@@ -15,7 +15,7 @@ export default function FileInput({
   const [active, setActive] = useState(false)
   const [unattachedFiles, setUnattachedFiles] = useState([])
 
-  const handleFileUpload = async file => {
+  const handleFileUpload = async (file) => {
     if (!file) return null
 
     const uploadUrlResponse = await getUploadUrl?.(file)?.catch(err => onError({ type: 'get-upload-url-error', error: err }))
@@ -60,7 +60,7 @@ export default function FileInput({
     [unattachedFiles]
   )
 
-  const validateFile = file => {
+  const validateFile = (file) => {
     if (!(file?.type || file?.name)) return
 
     const type = file.type?.split('/')
@@ -71,13 +71,13 @@ export default function FileInput({
     return acceptedFileTypes.mime_types?.includes(type?.at(-1)) || acceptableExtension
   }
 
-  const updateFiles = newFiles => (Promise.all(newFiles
+  const updateFiles = (newFiles) => (Promise.all(newFiles
     .filter(validateFile)
     .map(handleFileUpload))
       .then(newAttachments => setUnattachedFiles([...unattachedFiles, ...newAttachments])))
       .catch(err => onError({ type: 'file-upload-error', error: err }))
 
-  const handleDrop = evt => {
+  const handleDrop = (evt) => {
     setActive(false)
     evt.preventDefault()
     evt.stopPropagation()
@@ -89,7 +89,7 @@ export default function FileInput({
     return updateFiles(dataArray.filter(f => f))
   }
 
-  const handleDragOver = evt => {
+  const handleDragOver = (evt) => {
     evt.preventDefault()
     evt.stopPropagation()
   }
