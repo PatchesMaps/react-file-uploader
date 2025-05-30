@@ -2,15 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { Attachment } from '../Attachment'
 import './FileInput.css'
 
+const DEFAULT_FILE_TYPES = {
+  // mime_types: ['pdf','csv'],
+  extensions: '*',
+}
+const DEFAULT_MODE = 'create'
+const DEFAULT_ON_CHANGE = () => console.info('onChange not implemented')
+const DEFAULT_ON_ERROR = (type, error) => console.error({ type, error })
+const DEFAULT_UPLOAD_FILE = async () => console.info('uploadFile not implemented')
+
 export default function FileInput({
-  mode,
-  onChange,
-  attachedFiles,
-  onError,
-  acceptedFileTypes,
-  getUploadUrl,
-  uploadFile,
-  style
+  mode = DEFAULT_MODE,
+  onChange = DEFAULT_ON_CHANGE,
+  attachedFiles = [],
+  onError = DEFAULT_ON_ERROR,
+  acceptedFileTypes = DEFAULT_FILE_TYPES,
+  getUploadUrl = null,
+  uploadFile = DEFAULT_UPLOAD_FILE,
+  style = null
 }) {
   const [active, setActive] = useState(false)
   const [unattachedFiles, setUnattachedFiles] = useState([])
@@ -153,18 +162,4 @@ export default function FileInput({
       </div>
     </div>
   )
-}
-
-FileInput.defaultProps = {
-  acceptedFileTypes: {
-    // mime_types: ['pdf','csv'],
-    extensions: '*',
-  },
-  mode: 'create',
-  onChange: () => console.info('onChange not implemented'),
-  attachedFiles: [],
-  onError: (type, error) => console.error({ type, error }),
-  getUploadUrl: null,
-  uploadFile: async () => console.info('uploadFile not implemented'),
-  style: null
 }
