@@ -1,5 +1,4 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import './Attachment.css'
 
 export default function Attachment({
@@ -14,7 +13,7 @@ export default function Attachment({
       <span className='name'>{`${attachment.name}`}</span>
       <span className='controls'>
         <button className='add-comment'>💬</button>
-        <button className='delete-comment'>❌</button>
+        <button className='delete-comment' onClick={() => onDelete(attachment, isAttached)}>❌</button>
       </span>
     </div>
   )
