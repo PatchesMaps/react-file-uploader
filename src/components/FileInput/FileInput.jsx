@@ -18,9 +18,9 @@ export default function FileInput({
   const handleFileUpload = async (file) => {
     if (!file) return null
 
-    const uploadUrlResponse = await getUploadUrl?.(file)?.catch(err => onError({ type: 'get-upload-url-error', error: err }))
+    const uploadUrlResponse = await getUploadUrl?.(file)?.catch((err) => onError({ type: 'get-upload-url-error', error: err }))
     const uploadUrlResData = await uploadUrlResponse?.json?.()
-    const uploadResponse = await uploadFile(file, uploadUrlResData?.data)?.catch(error => onError({ type: 'upload-file-error', error }))
+    const uploadResponse = await uploadFile(file, uploadUrlResData?.data)?.catch((error) => onError({ type: 'upload-file-error', error }))
 
     onChange({ type: 'file-upload', data: uploadResponse })
 
@@ -45,7 +45,7 @@ export default function FileInput({
 
   useEffect(
     () => {
-      const attachedIds = attachedFiles.map(file => file.id)
+      const attachedIds = attachedFiles.map((file) => file.id)
       const filtered = unattachedFiles.filter(({ id }) => !attachedIds.includes(id))
 
       if (filtered.length !== unattachedFiles.length) setUnattachedFiles(filtered)
@@ -74,8 +74,8 @@ export default function FileInput({
   const updateFiles = (newFiles) => (Promise.all(newFiles
     .filter(validateFile)
     .map(handleFileUpload))
-      .then(newAttachments => setUnattachedFiles([...unattachedFiles, ...newAttachments])))
-      .catch(err => onError({ type: 'file-upload-error', error: err }))
+      .then((newAttachments) => setUnattachedFiles([...unattachedFiles, ...newAttachments])))
+      .catch((err) => onError({ type: 'file-upload-error', error: err }))
 
   const handleDrop = (evt) => {
     setActive(false)
@@ -84,9 +84,9 @@ export default function FileInput({
 
     const dataArray = Array.from(evt.dataTransfer?.items || evt.target?.files || evt.dataTransfer?.files)
 
-    if (evt.dataTransfer?.items) return updateFiles(dataArray.map(f => f?.getAsFile?.()).filter(f => f))
+    if (evt.dataTransfer?.items) return updateFiles(dataArray.map((f) => f?.getAsFile?.()).filter((f) => f))
 
-    return updateFiles(dataArray.filter(f => f))
+    return updateFiles(dataArray.filter((f) => f))
   }
 
   const handleDragOver = (evt) => {
@@ -110,9 +110,9 @@ export default function FileInput({
   )
 
   const renderFiles = () => {
-    const attachmentIds = attachedFiles.map(file => file.id)
-    const unattached = unattachedFiles?.filter(({ id }) => !attachmentIds.includes(id)).map(file => renderFile(file, false))
-    const attached = attachedFiles?.map(file => renderFile(file, true))
+    const attachmentIds = attachedFiles.map((file) => file.id)
+    const unattached = unattachedFiles?.filter(({ id }) => !attachmentIds.includes(id)).map((file) => renderFile(file, false))
+    const attached = attachedFiles?.map((file) => renderFile(file, true))
 
     return [...attached, ...unattached]
   }
@@ -132,7 +132,7 @@ export default function FileInput({
               accept={acceptedFileTypes.extensions}
               multiple
               hidden
-              onClick={evt => evt.target.value = null} // this resolves a chrome issue where you can't add a file, remove that file, and add the same file again.
+              onClick={(evt) => evt.target.value = null} // this resolves a chrome issue where you can't add a file, remove that file, and add the same file again.
             />
             <div className='file-input-area'>
               <span className='upload-icon' style={{
